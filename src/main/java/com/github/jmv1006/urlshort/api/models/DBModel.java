@@ -1,4 +1,4 @@
-package com.github.jmv1006.urlshort.api;
+package com.github.jmv1006.urlshort.api.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

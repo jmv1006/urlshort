@@ -1,4 +1,7 @@
 package com.github.jmv1006.urlshort.api;
+import com.github.jmv1006.urlshort.api.models.DBModel;
+import com.github.jmv1006.urlshort.api.models.RequestModel;
+import com.github.jmv1006.urlshort.api.models.ResponseModel;
 import com.github.jmv1006.urlshort.urlservice.URLService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+@CrossOrigin
 @RestController
 public class MainController {
     private final Repository myRepo;
@@ -29,13 +33,19 @@ public class MainController {
     public ResponseEntity createUrl(@Valid @RequestBody RequestModel request) {
         String randomEncoding = myService.encode();
 
-        DBModel mapping = myRepo.findByurl(randomEncoding);
+        DBModel mapping = myRepo.findByUrl(randomEncoding);
 
         if(mapping == null) {
-            // Checking if inputted url is valid
             try {
+
                 URL u = new URL(request.url); // this would check for the protocol
                 u.toURI(); // does the extra checking required for validation of URI
+
+
+                // Check if request.url contains "http://" or "https://"
+                if (!request.url.contains("http://") && !request.url.contains("https://")) {
+                    request.url = "http://" + request.url;
+                }
 
                 DBModel newUrlRedirect = new DBModel(randomEncoding, request.url);
 
@@ -59,7 +69,7 @@ public class MainController {
 
     @GetMapping("/{encodedId}")
     public ResponseEntity reRoute(@PathVariable String encodedId) throws URISyntaxException {
-        DBModel mapping = myRepo.findByurl(encodedId);
+        DBModel mapping = myRepo.findByUrl(encodedId);
 
         if(mapping == null) {
             ResponseModel res = new ResponseModel(null, null, "URL not found.");
@@ -70,5 +80,10 @@ public class MainController {
             httpHeaders.setLocation(redirect);
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
         }
+    }
+
+    @GetMapping("/")
+    public String base() {
+        return "API Works With Docker!";
     }
 }
