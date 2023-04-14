@@ -29,7 +29,7 @@ public class MainController {
         this.myService = new URLService();
     }
 
-    @PostMapping("/create")
+    @PostMapping("/api/create")
     public ResponseEntity createUrl(@Valid @RequestBody RequestModel request) {
         String randomEncoding = myService.encode();
 
@@ -67,7 +67,7 @@ public class MainController {
         return null;
     }
 
-    @GetMapping("/{encodedId}")
+    @GetMapping("/api/{encodedId}")
     public ResponseEntity reRoute(@PathVariable String encodedId) throws URISyntaxException {
         DBModel mapping = myRepo.findByUrl(encodedId);
 
