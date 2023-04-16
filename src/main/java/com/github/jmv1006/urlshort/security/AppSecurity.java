@@ -14,7 +14,7 @@ public class AppSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/*", "/api*", "/user*")
+                .requestMatchers("/*", "/api*", "/api/*", "/user*", "/user/*")
                 .permitAll()
                 .and()
                 .httpBasic().and().csrf().disable();
