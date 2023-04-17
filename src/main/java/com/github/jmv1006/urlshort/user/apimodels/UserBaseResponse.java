@@ -1,6 +1,5 @@
 package com.github.jmv1006.urlshort.user.apimodels;
 
-import com.github.jmv1006.urlshort.user.UserModel;
 
 public class UserBaseResponse {
     public String message;
