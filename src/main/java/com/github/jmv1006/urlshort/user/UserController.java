@@ -1,6 +1,7 @@
 package com.github.jmv1006.urlshort.user;
 
 import com.github.jmv1006.urlshort.user.apimodels.CreateUserRequest;
+import com.github.jmv1006.urlshort.user.apimodels.LogInRequest;
 import com.github.jmv1006.urlshort.user.apimodels.UserBaseResponse;
 import com.github.jmv1006.urlshort.user.apimodels.UserResponseModel;
 import jakarta.validation.Valid;
@@ -17,6 +18,20 @@ public class UserController {
 
     public UserController(UserService myService) {
         this.myService = myService;
+    }
+
+    @PostMapping("/user/log-in")
+    public ResponseEntity logInUser(@Valid @RequestBody LogInRequest request) {
+        UserModel user = myService.loginUser(request);
+
+        if(user == null) {
+            UserBaseResponse res = new UserBaseResponse(null, "Could not log in with given credentials.");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+
+        UserResponseModel resUser = new UserResponseModel(user.id, user.username);
+        UserBaseResponse res = new UserBaseResponse(resUser, "Success");
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
@@ -46,10 +61,5 @@ public class UserController {
         UserResponseModel resUser = new UserResponseModel(createdUser.id, createdUser.username);
         UserBaseResponse res = new UserBaseResponse(resUser, "Successfully Created User");
         return new ResponseEntity<>(res, HttpStatus.OK);
-    }
-
-    @PostMapping("/user/log-in")
-    public ResponseEntity logInUser(@Valid @RequestBody CreateUserRequest request) {
-        return new ResponseEntity<>("Login", HttpStatus.OK);
     }
 }

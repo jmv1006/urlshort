@@ -6,13 +6,11 @@ import com.github.jmv1006.urlshort.api.models.CreateRedirectResponse;
 import com.github.jmv1006.urlshort.urlservice.URLService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 

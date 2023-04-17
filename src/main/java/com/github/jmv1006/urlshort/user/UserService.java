@@ -2,6 +2,7 @@ package com.github.jmv1006.urlshort.user;
 
 import com.github.jmv1006.urlshort.security.AppSecurity;
 import com.github.jmv1006.urlshort.user.apimodels.CreateUserRequest;
+import com.github.jmv1006.urlshort.user.apimodels.LogInRequest;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,22 @@ public class UserService {
 
     public Optional<UserModel> findUser(String id){
         return myRepo.findById(id);
+    }
+
+    public UserModel loginUser(LogInRequest request) {
+        String username = request.username;
+        String password = request.password;
+
+        UserModel user = myRepo.findByUsername(username);
+
+        if(user == null) {
+            return null;
+        }
+        // compare passwords
+
+        if(!this.encoder.matches(password, user.password)) return null;
+
+        return user;
     }
 
 }
