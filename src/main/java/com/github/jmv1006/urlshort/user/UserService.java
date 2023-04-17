@@ -3,7 +3,6 @@ package com.github.jmv1006.urlshort.user;
 import com.github.jmv1006.urlshort.security.AppSecurity;
 import com.github.jmv1006.urlshort.user.apimodels.CreateUserRequest;
 import com.github.jmv1006.urlshort.user.apimodels.LogInRequest;
-import org.springframework.data.annotation.Id;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
