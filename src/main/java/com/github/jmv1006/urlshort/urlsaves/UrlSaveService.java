@@ -45,6 +45,6 @@ public class UrlSaveService {
         if(urlDocumentOp.isEmpty()) return null;
 
         // create new url save and return it
-        return urlSaveRepo.save(new UrlSaveModel(userOp.get().id, urlDocumentOp.get().id));
+        return urlSaveRepo.save(new UrlSaveModel(userOp.get().id, urlDocumentOp.get()));
     }
 }
