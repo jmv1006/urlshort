@@ -4,6 +4,8 @@ import com.github.jmv1006.urlshort.user.apimodels.CreateUserRequest;
 import com.github.jmv1006.urlshort.user.apimodels.LogInRequest;
 import com.github.jmv1006.urlshort.user.apimodels.UserBaseResponse;
 import com.github.jmv1006.urlshort.user.apimodels.UserResponseModel;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/user/log-in")
-    public ResponseEntity logInUser(@Valid @RequestBody LogInRequest request) {
+    public ResponseEntity logInUser(@Valid @RequestBody LogInRequest request, HttpServletResponse response) {
         UserModel user = myService.loginUser(request);
 
         if(user == null) {
@@ -29,8 +31,11 @@ public class UserController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
 
+        response.addCookie(new Cookie("URLS-ATH", "1234"));
+
         UserResponseModel resUser = new UserResponseModel(user.id, user.username);
         UserBaseResponse res = new UserBaseResponse(resUser, "Success");
+
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 

@@ -10,11 +10,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class AppSecurity {
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/*", "/api*", "/api/*", "/user*", "/user/*", "/url*", "url/*", "url/user/*")
+                .requestMatchers("/*", "/api*", "/api/*","/user*", "/user/*", "/url*", "url/*", "url/user/*")
                 .permitAll()
                 .and()
                 .httpBasic().and().csrf().disable();

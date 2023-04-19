@@ -30,6 +30,10 @@ public class UrlSaveService {
         return urlSaveRepo.findByUserId(userId);
     }
 
+    public void deleteUrlSave(String urlSaveId) {
+        urlSaveRepo.deleteById(urlSaveId);
+    }
+
     public UrlSaveModel createUrlSave(CreateUrlSaveRequest request) {
         String userId = request.userId;
         String urlId = request.urlId;

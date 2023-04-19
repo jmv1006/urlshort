@@ -27,7 +27,6 @@ public class MainController {
         this.myRepo = myRepo;
         this.myService = new URLService();
     }
-
     @PostMapping("/api/create")
     public ResponseEntity createUrl(@Valid @RequestBody RequestModel request) {
         String randomEncoding = myService.encode();
@@ -51,12 +50,12 @@ public class MainController {
                 myRepo.save(newUrlRedirect);
 
                 // create a new response model
-                CreateRedirectResponse res = new CreateRedirectResponse(base_url, newUrlRedirect.url, "Success");
+                CreateRedirectResponse res = new CreateRedirectResponse(newUrlRedirect, "Success");
 
                 return new ResponseEntity<>(res, HttpStatus.OK);
 
             } catch (MalformedURLException | URISyntaxException e) {
-                CreateRedirectResponse res = new CreateRedirectResponse(null, null, "Please enter a valid url.");
+                CreateRedirectResponse res = new CreateRedirectResponse(null, "Please enter a valid url.");
                 return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
 
             }

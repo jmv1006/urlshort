@@ -56,4 +56,11 @@ public class UrlSaveController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @DeleteMapping("/url/{url_save_id}")
+    public ResponseEntity deleteURLSave(@PathVariable String url_save_id) {
+        urlSaveService.deleteUrlSave(url_save_id);
+        UrlSaveResponse res = new UrlSaveResponse("Deleted URL Save", null);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
 }

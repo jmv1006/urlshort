@@ -4,5 +4,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UrlSaveRepository extends MongoRepository<UrlSaveModel, String> {
     UrlSaveModel[] findByUserId(String userId);
-
 }
