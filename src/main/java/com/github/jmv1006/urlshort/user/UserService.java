@@ -1,6 +1,7 @@
 package com.github.jmv1006.urlshort.user;
 
 import com.github.jmv1006.urlshort.security.AppSecurity;
+import com.github.jmv1006.urlshort.user.apimodels.ChangePasswordRequest;
 import com.github.jmv1006.urlshort.user.apimodels.CreateUserRequest;
 import com.github.jmv1006.urlshort.user.apimodels.LogInRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,11 +47,28 @@ public class UserService {
         if(user == null) {
             return null;
         }
-        // compare passwords
 
+        // compare passwords
         if(!this.encoder.matches(password, user.password)) return null;
 
         return user;
+    }
+
+    public UserModel changePassword(ChangePasswordRequest request) {
+        String userId = request.id;
+        String currentPassword = request.oldPassword;
+
+        Optional<UserModel> userOpt = myRepo.findById(userId);
+
+        if(userOpt.isEmpty()) return null;
+
+        UserModel user = userOpt.get();
+
+        if(!this.encoder.matches(currentPassword, user.password)) return null;
+
+        user.password = encoder.encode(request.newPassword);
+
+        return myRepo.save(user);
     }
 
 }

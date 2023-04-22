@@ -1,8 +1,7 @@
-package com.github.jmv1006.urlshort.api;
-import com.github.jmv1006.urlshort.api.models.DBModel;
-import com.github.jmv1006.urlshort.api.models.RequestModel;
-import com.github.jmv1006.urlshort.api.models.RerouteResponse;
-import com.github.jmv1006.urlshort.api.models.CreateRedirectResponse;
+package com.github.jmv1006.urlshort.core;
+import com.github.jmv1006.urlshort.core.models.RequestModel;
+import com.github.jmv1006.urlshort.core.models.RerouteResponse;
+import com.github.jmv1006.urlshort.core.models.CreateRedirectResponse;
 import com.github.jmv1006.urlshort.urlservice.URLService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,22 +15,22 @@ import java.net.URL;
 
 @CrossOrigin
 @RestController
-public class MainController {
-    private final Repository myRepo;
+public class CoreController {
+    private final CoreRepository myRepo;
     private final URLService myService;
 
     @Value("${base_url}")
     private String base_url;
 
-    public MainController(Repository myRepo) {
+    public CoreController(CoreRepository myRepo) {
         this.myRepo = myRepo;
         this.myService = new URLService();
     }
-    @PostMapping("/api/create")
+    @PostMapping("/core/create")
     public ResponseEntity createUrl(@Valid @RequestBody RequestModel request) {
         String randomEncoding = myService.encode();
 
-        DBModel mapping = myRepo.findByUrl(randomEncoding);
+        CoreDBModel mapping = myRepo.findByUrl(randomEncoding);
 
         if(mapping == null) {
             try {
@@ -44,7 +43,7 @@ public class MainController {
                     request.url = "http://" + request.url;
                 }
 
-                DBModel newUrlRedirect = new DBModel(randomEncoding, request.url);
+                CoreDBModel newUrlRedirect = new CoreDBModel(randomEncoding, request.url);
 
                 // Saving to DB
                 myRepo.save(newUrlRedirect);
@@ -64,9 +63,9 @@ public class MainController {
         return null;
     }
 
-    @GetMapping("/api/{encodedId}")
+    @GetMapping("/core/{encodedId}")
     public ResponseEntity reRoute(@PathVariable String encodedId) throws URISyntaxException {
-        DBModel urlInfo = myRepo.findByUrl(encodedId);
+        CoreDBModel urlInfo = myRepo.findByUrl(encodedId);
 
         if(urlInfo == null) {
             RerouteResponse res = new RerouteResponse(null, "URL not found.");

@@ -1,4 +1,4 @@
-package com.github.jmv1006.urlshort.api.models;
+package com.github.jmv1006.urlshort.core.models;
 
 public class RerouteResponse {
     public String url;

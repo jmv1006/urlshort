@@ -1,7 +1,7 @@
 package com.github.jmv1006.urlshort.urlsaves;
 
-import com.github.jmv1006.urlshort.api.Repository;
-import com.github.jmv1006.urlshort.api.models.DBModel;
+import com.github.jmv1006.urlshort.core.CoreDBModel;
+import com.github.jmv1006.urlshort.core.CoreRepository;
 import com.github.jmv1006.urlshort.urlsaves.apimodels.CreateUrlSaveRequest;
 import com.github.jmv1006.urlshort.user.UserModel;
 import com.github.jmv1006.urlshort.user.UserRepository;
@@ -14,9 +14,9 @@ public class UrlSaveService {
     public final UrlSaveRepository urlSaveRepo;
     public final UserRepository userRepo;
 
-    public final Repository mainRepo;
+    public final CoreRepository mainRepo;
 
-    public UrlSaveService(UrlSaveRepository urlSaveRepo, UserRepository userRepo, Repository mainRepo) {
+    public UrlSaveService(UrlSaveRepository urlSaveRepo, UserRepository userRepo, CoreRepository mainRepo) {
         this.urlSaveRepo = urlSaveRepo;
         this.userRepo = userRepo;
         this.mainRepo = mainRepo;
@@ -44,7 +44,7 @@ public class UrlSaveService {
         if(userOp.isEmpty()) return null;
 
         // verifying url exists in db
-        Optional<DBModel> urlDocumentOp = mainRepo.findById(urlId);
+        Optional<CoreDBModel> urlDocumentOp = mainRepo.findById(urlId);
 
         if(urlDocumentOp.isEmpty()) return null;
 

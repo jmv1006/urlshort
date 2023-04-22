@@ -1,9 +1,6 @@
 package com.github.jmv1006.urlshort.user;
 
-import com.github.jmv1006.urlshort.user.apimodels.CreateUserRequest;
-import com.github.jmv1006.urlshort.user.apimodels.LogInRequest;
-import com.github.jmv1006.urlshort.user.apimodels.UserBaseResponse;
-import com.github.jmv1006.urlshort.user.apimodels.UserResponseModel;
+import com.github.jmv1006.urlshort.user.apimodels.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -65,6 +62,21 @@ public class UserController {
 
         UserResponseModel resUser = new UserResponseModel(createdUser.id, createdUser.username);
         UserBaseResponse res = new UserBaseResponse(resUser, "Successfully Created User");
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PutMapping("/user/pw")
+    public ResponseEntity changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        UserModel updatedUser = myService.changePassword(request);
+
+        if(updatedUser == null) {
+            UserBaseResponse res = new UserBaseResponse(null, "Error Updating Password");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+
+        UserResponseModel resUser = new UserResponseModel(updatedUser.id, updatedUser.username);
+        UserBaseResponse res = new UserBaseResponse(resUser, "Successfully Updated Password.");
+
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
