@@ -78,6 +78,6 @@ public class CoreController {
 
     @GetMapping("/")
     public String base() {
-        return "API Works With Docker!";
+        return "API Works!";
     }
 }
