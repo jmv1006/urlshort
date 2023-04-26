@@ -59,7 +59,6 @@ public class CoreController {
 
             }
         }
-
         return null;
     }
 

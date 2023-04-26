@@ -3,6 +3,8 @@ package com.github.jmv1006.urlshort.core;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "url-shortener")
 public class CoreDBModel {
     @Id
